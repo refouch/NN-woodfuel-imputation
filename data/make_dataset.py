@@ -33,13 +33,10 @@ def pivot_fao_dataset(df: pd.DataFrame, on='Item', keep_flag = False):
 def clean_world_bank(df, feature_name):
     """Helper dropping irrelevant columns from World Bank and preparing for merge with FAO"""
     
-    # 1. Pull only the 3 columns your model actually cares about
     clean_df = df[['REF_AREA', 'TIME_PERIOD', 'OBS_VALUE']].copy()
-    
-    # 2. Rename columns to map perfectly to your existing FAO master pipeline
+
     clean_df.columns = ['ISO3', 'Year', feature_name]
     
-    # 3. Clean up the types to ensure smooth matrix alignments
     clean_df['Year'] = clean_df['Year'].astype(int)
     clean_df[feature_name] = pd.to_numeric(clean_df[feature_name], errors='coerce')
     
@@ -80,8 +77,7 @@ columns_to_drop = [
     'Area Code (M49)', 
     'Area', 
     '15.2.1 Annual forest area change rate', 
-    '15.1.1 Land area', 
-    'Flag'
+    '15.1.1 Land area',
 ]
 
 df_cleaned = final_df.drop(columns=columns_to_drop, errors='ignore')
